@@ -5,23 +5,23 @@
 name: 'app'
 
 # The type of the application to build.
-type: 'python:3.8'
+type: 'python:3.11'
 
 # Environment variables available to the app container.
 variables:
     env:
-        MEILISEARCH_VERSION: 'v0.15.0'
+        MEILISEARCH_VERSION: 'v1.6.2'
         TEMPLATE_DEMO: true
-        POETRY_VERSION: '1.1.4'
+        POETRY_VERSION: '1.8.2'
         POETRY_VIRTUALENVS_IN_PROJECT: true
-        POETRY_VIRTUALENVS_CREATE: false
+        POETRY_VIRTUALENVS_CREATE: true
 
 # The hooks that will be performed when the package is deployed.
 hooks:
     build: !include
         type: string
         path: build.sh
-    deploy: .poetry/bin/poetry run python update_demo_index.py
+    deploy: .local/bin/poetry run python update_demo_index.py
 
 # The configuration of app when it is exposed to the web.
 web:
@@ -37,4 +37,7 @@ mounts:
     "data.ms":
         source: local
         source_path: "datams"
-        
+    "dumps":
+        source: local
+        source_path: "dumps"
+

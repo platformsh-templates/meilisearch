@@ -12,13 +12,21 @@ install_meilisearch() {
 
 setup_venv(){
     echo "* SETTING UP POETRY VENV"
-    # Install poetry
-    curl https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py >> get-poetry.py
-    python get-poetry.py --version $POETRY_VERSION
-    # Source the Poetry command and cleanup.
-    . $PLATFORM_APP_DIR/.poetry/env && rm get-poetry.py
-    # Install dependencies.
-    poetry install
+     # Fail the build if any errors occur
+    set -eu
+
+    # Download the latest version of pip
+    python3.11 -m pip install --upgrade pip
+
+    # Install and configure Poetry
+    export PIP_USER=false
+    curl -sSL https://install.python-poetry.org | python3 -
+    # Update PATH to make Poetry available in this hook
+    export PATH="/app/.local/bin:$PATH"
+    export PIP_USER=true
+
+    # Install dependencies
+    poetry install --no-root
 }
 
 install_meilisearch

@@ -1,2 +1,4 @@
-# Source Poetry, so available during SSH.
-. $PLATFORM_APP_DIR/.poetry/env
+# Updates PATH when Poetry is used, making it available during deploys, start commands, and SSH.
+if [ -n "$POETRY_VERSION" ]; then
+    export PATH="/app/.local/bin:$PATH"
+fi
