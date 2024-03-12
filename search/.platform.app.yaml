@@ -37,4 +37,7 @@ mounts:
     "data.ms":
         source: local
         source_path: "datams"
-        
+    "dumps":
+        source: local
+        source_path: "dumps"
+
